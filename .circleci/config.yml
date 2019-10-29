@@ -10,4 +10,5 @@ jobs:
     steps:
       - checkout
       - run: go get -v -t -d ./...
-      - run: find modules/ -name Makefile | while read file; do pushd `dirname $file`; make build; make test; make -s lint; popd; done
+      - run: go get golang.org/x/lint/golint
+      - run: find modules/ -name Makefile | while read file; do pushd `dirname $file`; make build; make test; make lint; popd; done
