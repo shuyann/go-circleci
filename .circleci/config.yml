@@ -10,4 +10,5 @@ jobs:
     steps:
       - checkout
       - run: go get -v -t -d ./...
-      - run: go test -v ./...
+      - run:
+          - find modules/ -name Makefile | while read file; do pushd `dirname $file`; make test; popd; done
