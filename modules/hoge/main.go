@@ -5,7 +5,7 @@ import (
 	"rsc.io/quote"
 )
 
-//const Hoge = 1
+const Hoge = 1
 
 func main() {
 	fmt.Println(echo())
