@@ -4,7 +4,11 @@ jobs:
   build:
     docker:
       - image: circleci/golang:1.12
-    working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
+    working_directory: /go/src/github.com/yamamotoshu1127
+    environment:
+      - GO111MODULE: "on"
     steps:
       - checkout
-      - run: go test -v ./...
+      - run: go get -v -t -d ./...
+      - run: go get golang.org/x/lint/golint
+      - run: find modules/ -name Makefile | while read file; do pushd `dirname $file`; make build; make test; make lint; popd; done
