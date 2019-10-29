@@ -5,13 +5,18 @@ import (
 	"rsc.io/quote"
 )
 
-const Hoge = 1
+// This is lint error!
+// const Hoge = 1
 
 func main() {
-	fmt.Println(echo())
+	// This is build error!
+	ffmt.Println(echo())
+	fmt.Pintln(echo())
 	fmt.Println(quote.Hello())
 }
 
 func echo() string {
+	// This is test error!
+	// return "foo"
 	return "hoge"
 }
