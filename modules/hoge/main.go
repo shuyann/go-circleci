@@ -5,6 +5,8 @@ import (
 	"rsc.io/quote"
 )
 
+//const Hoge = 1
+
 func main() {
 	fmt.Println(echo())
 	fmt.Println(quote.Hello())
