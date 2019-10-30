@@ -17,6 +17,6 @@ func main() {
 
 func echo() string {
 	// This is test error!
-	// return "foo"
+	//return "foo"
 	return "hoge"
 }
