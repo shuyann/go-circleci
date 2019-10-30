@@ -30,9 +30,9 @@ jobs:
       - checkout
       - run:
           name: Run lint
-          command: |
-          go get golang.org/x/lint/golint
-          find modules/ -name Makefile | while read file; do pushd `dirname $file`; make lint; popd; done
+          command: >
+            go get golang.org/x/lint/golint
+            find modules/ -name Makefile | while read file; do pushd `dirname $file`; make lint; popd; done
   test:
     executor:
       name: default
