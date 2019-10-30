@@ -1,14 +1,26 @@
 version: 2.1
-jobs:
-  build:
+executors:
+  default:
+    working_directory: ~/{{REPO_NAME}}
     docker:
       - image: circleci/golang:1.12
     environment:
       - GO111MODULE: "on"
-    working_directory: ~/{{REPO_NAME}}
+jobs:
+  setup:
     steps:
       - checkout
       - run: go get -v -t -d ./...
       - run: go get golang.org/x/lint/golint
-      - run: find modules/ -name Makefile | while read file; do pushd `dirname $file`; make build; make test; make lint; popd; done
-      - run: echo "Hello Hoge CircleCI World!"
+  build:
+    steps:
+      - checkout
+      - run: find modules/ -name Makefile | while read file; do pushd `dirname $file`; make build; popd; done
+  lint:
+    steps:
+      - checkout
+      - run: find modules/ -name Makefile | while read file; do pushd `dirname $file`; make lint; popd; done
+  test:
+    steps:
+      - checkout
+      - run: find modules/ -name Makefile | while read file; do pushd `dirname $file`; make test; popd; done
