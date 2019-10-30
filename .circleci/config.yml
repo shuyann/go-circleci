@@ -12,26 +12,35 @@ jobs:
       name: default
     steps:
       - checkout
-      - run: go get -v -t -d ./...
-      - run: go get golang.org/x/lint/golint
+      - run:
+          name: Install dependencies
+          command: go get -v -t -d ./...
   build:
     executor:
       name: default
     steps:
       - checkout
-      - run: find modules/ -name Makefile | while read file; do pushd `dirname $file`; make build; popd; done
+      - run:
+          name: Run Build
+          command: find modules/ -name Makefile | while read file; do pushd `dirname $file`; make build; popd; done
   lint:
     executor:
       name: default
     steps:
       - checkout
-      - run: find modules/ -name Makefile | while read file; do pushd `dirname $file`; make lint; popd; done
+      - run:
+          name: Run lint
+          command: |
+          go get golang.org/x/lint/golint
+          find modules/ -name Makefile | while read file; do pushd `dirname $file`; make lint; popd; done
   test:
     executor:
       name: default
     steps:
       - checkout
-      - run: find modules/ -name Makefile | while read file; do pushd `dirname $file`; make test; popd; done
+      - run:
+          name: Run test
+          command: find modules/ -name Makefile | while read file; do pushd `dirname $file`; make test; popd; done
 
 workflows:
   version: 2
