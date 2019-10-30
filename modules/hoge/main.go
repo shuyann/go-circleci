@@ -6,7 +6,7 @@ import (
 )
 
 // This is lint error!
-// const Hoge = 1
+const Hoge = 1
 
 func main() {
 	// This is build error!
