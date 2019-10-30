@@ -17,7 +17,7 @@ jobs:
           command: find modules/ -name Makefile | while read file; do pushd `dirname $file`; make build; popd; done
       - run:
           name: Run lint
-          command: find modules/ -name Makefile | while read file; do pushd `dirname $file`; make lint; popd; done
+          command: golint --set_exit_status modules/...
       - run:
           name: Run tests
-          command: find modules/ -name Makefile | while read file; do pushd `dirname $file`; make test; popd; done
+          command: find modules/* -type d | while read dir; do pushd $dir; if [[ -n $(find -f *_test.go 2>/dev/null) ]]; then go test ./...; fi; popd; done
