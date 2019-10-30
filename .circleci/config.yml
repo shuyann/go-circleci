@@ -8,19 +8,42 @@ executors:
       - GO111MODULE: "on"
 jobs:
   setup:
+    executor:
+      name: default
     steps:
       - checkout
       - run: go get -v -t -d ./...
       - run: go get golang.org/x/lint/golint
   build:
+    executor:
+      name: default
     steps:
       - checkout
       - run: find modules/ -name Makefile | while read file; do pushd `dirname $file`; make build; popd; done
   lint:
+    executor:
+      name: default
     steps:
       - checkout
       - run: find modules/ -name Makefile | while read file; do pushd `dirname $file`; make lint; popd; done
   test:
+    executor:
+      name: default
     steps:
       - checkout
       - run: find modules/ -name Makefile | while read file; do pushd `dirname $file`; make test; popd; done
+
+workflows:
+  version: 2
+  build_lint_test:
+    - setup
+    - build:
+        requires:
+          - setup
+    - lint:
+        requires:
+          - setup
+    - test:
+        requires:
+          - setup
+
