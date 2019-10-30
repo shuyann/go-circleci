@@ -10,7 +10,7 @@ import (
 
 func main() {
 	// This is build error!
-	ffmt.Println(echo())
+	//ffmt.Println(echo())
 	fmt.Println(echo())
 	fmt.Println(quote.Hello())
 }
