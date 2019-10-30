@@ -40,7 +40,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Run test
+          name: Run tests
           command: find modules/ -name Makefile | while read file; do pushd `dirname $file`; make test; popd; done
 
 workflows:
