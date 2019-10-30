@@ -4,7 +4,7 @@ jobs:
   build:
     docker:
       - image: circleci/golang:1.12
-    working_directory: ~/{{REPO_NAME}}
+    working_directory: ~/repo
     environment:
       - GO111MODULE: "on"
     steps:
@@ -14,10 +14,10 @@ jobs:
           command: go get golang.org/x/lint/golint
       - run:
           name: Run Build
-          command: find modules/ -name Makefile | while read file; do pushd `dirname $file`; make build; popd; done
+          command: find modules/ -name Makefile | while read file; do pushd `dirname $file`; make build; make clean; popd; done
       - run:
           name: Run lint
-          command: find modules/ -name Makefile | while read file; do pushd `dirname $file`; make lint; popd; done
+          command: golint --set_exit_status modules/...
       - run:
           name: Run tests
-          command: find modules/ -name Makefile | while read file; do pushd `dirname $file`; make test; popd; done
+          command: find modules/* -type d | while read dir; do pushd $dir; if ls *_test.go > /dev/null 2>&1; then go test ./...; fi; popd; done
